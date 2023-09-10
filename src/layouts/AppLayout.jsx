@@ -16,7 +16,7 @@ function AppLayout({children}) {
         <div className="container">
             <div className="page-aside">
                 <div>
-                    <NavLink className="logo">
+                    <NavLink to={'/'} className="logo">
                         <img src={logo} />
                         <span>Aster News</span>
                     </NavLink>
