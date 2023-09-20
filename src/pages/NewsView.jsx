@@ -1,22 +1,44 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {Link, NavLink, useParams} from "react-router-dom";
 import { useFetchNewsBySlug } from "../hooks/useFetch";
 
 function NewsView() {
 
-    const [newsData, fetchNewsBySlug] = useFetchNewsBySlug();
+    const [data, fetchNewsBySlug, loading] = useFetchNewsBySlug();
     const {slug} = useParams();
 
     useEffect(() => {
         fetchNewsBySlug(slug);
     }, [slug])
 
-    console.log(newsData);
-
     return (
-        <div>
-            <h1>News View</h1>
-        </div>
+        <>
+            {loading && (
+                <div>
+                    Loading...
+                </div>
+            )}
+            {!loading && (
+                <div className="news-view">
+                    <h1 className="news-view-title">{data?.title}</h1>
+                    <div className="news-view-tags">
+                        <Link to={`/search/${data?.category?.slug}`} className="news-view-tag">
+                            {data?.category?.name}
+                        </Link>
+                    </div>
+                    <div className="news-view-photo">
+                        <img src={data?.photo} alt=""/>
+                    </div>
+                    <div className="news-view-content" dangerouslySetInnerHTML={{__html: data?.content}}/>
+                    <div className="news-view-date">{data?.published_date}</div>
+                    <div className="news-view-author">
+                        <NavLink to={`/author/${data?.author?.slug}`}>
+                            {data?.author?.fullname}
+                        </NavLink>
+                    </div>
+                </div>
+            )}
+        </>
     );
 }
 

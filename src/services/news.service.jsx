@@ -9,7 +9,7 @@ const apiUrl = import.meta.env.VITE_APP_API_URL;
 export const serviceNewsFetchList = async (params) => {
     const res = await axios.get(apiUrl + NewsApi.list, {params});
     if (res.status === 200) {
-        return res.data.data;
+        return res.data;
     }
 
     return false;
@@ -62,6 +62,17 @@ export const serviceNewsCategories = async () => {
             }
             return category;
         });
+    }
+
+    return false;
+}
+
+export const serviceNewsRandomList = async (params = {}) => {
+    const res = await axios.get(apiUrl + NewsApi.random, {
+        params
+    });
+    if (res.status === 200) {
+        return res.data;
     }
 
     return false;

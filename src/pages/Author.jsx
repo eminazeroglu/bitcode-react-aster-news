@@ -1,26 +1,29 @@
-import {useState} from "react";
-import {useEffect} from "react";
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import NewsItem from "../components/ui/news/NewsItem";
-import {useFetchNewsList} from "../hooks/useFetch";
-import SkeletonNews from "~/components/ui/skeleton/SkeletonNews.jsx";
+import {useFetchAuthorNewsList} from "~/hooks/useFetch.jsx";
 import Skeleton from "~/components/ui/skeleton/Skeleton.jsx";
+import SkeletonNews from "~/components/ui/skeleton/SkeletonNews.jsx";
+import NewsItem from "~/components/ui/news/NewsItem.jsx";
 
-function NewsSearch() {
+function Author(props) {
 
-    const {category} = useParams();
-    const [news, fetchNews, loading] = useFetchNewsList();
-    const [categoryName, setCategoryName] = useState('');
+    const {slug} = useParams();
+
+    const [news, fetchNews, total, loading] = useFetchAuthorNewsList();
+    const [author, setAuthor] = useState({});
 
     useEffect(() => {
-        fetchNews({category});
-    }, [category])
+        fetchNews(slug)
+    }, [slug])
+
 
     useEffect(() => {
         if (news.length > 0) {
-            setCategoryName(news[0].category.name)
+            setAuthor(news[0].author)
         }
     }, [news])
+
+    console.log(news);
 
     return (
         <div className="section">
@@ -43,8 +46,16 @@ function NewsSearch() {
             )}
             {!loading && (
                 <>
-                    <div className="section-head">
-                        <h3 className="section-title">{categoryName}</h3>
+                    <div className="section-head section-head--between">
+                        <div className="section-flex">
+                            <figure className="section-photo">
+                                <img src={author.photo} alt=""/>
+                            </figure>
+                            <h3 className="section-title">{author.fullname}</h3>
+                        </div>
+                        <div>
+                            <b>Toplam Xəbər Sayı:</b> {total}
+                        </div>
                     </div>
                     <div className="section-body">
                         <div className="news-content">
@@ -58,4 +69,4 @@ function NewsSearch() {
     );
 }
 
-export default NewsSearch;
+export default Author;

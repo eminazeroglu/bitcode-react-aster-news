@@ -3,6 +3,7 @@ import AppLayout from "../layouts/AppLayout";
 import Home from "../pages/Home";
 import NewsSearch from "../pages/NewsSearch";
 import NewsView from "../pages/NewsView";
+import Author from "~/pages/Author.jsx";
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
     {
         path: '/search/:category',
         element: <NewsSearch/>,
+        layout: 'appLayout'
+    },
+    {
+        path: '/author/:slug',
+        element: <Author/>,
         layout: 'appLayout'
     },
     {
