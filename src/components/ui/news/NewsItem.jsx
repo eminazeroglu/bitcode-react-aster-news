@@ -7,7 +7,7 @@ function NewsItem({item}) {
             <div className="inner">
                 <div className="text">
                     <NavLink to={'/view/' + item.slug}>
-                        <h5>{item.title}</h5>
+                        <h5>{item.id} - {item.title}</h5>
                     </NavLink>
                     <p>{item.description}</p>
                 </div>

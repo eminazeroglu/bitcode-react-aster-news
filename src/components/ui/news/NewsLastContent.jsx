@@ -7,10 +7,14 @@ function NewsLastContent() {
 
     const [news, fetchNews, loading] = useFetchNewsLastList();
 
+    const handleShowMore = () => {
+        const lastId = news[news.length - 1].id;
+        fetchNews({lastId})
+    }
+
     useEffect(() => {
         fetchNews();
     }, [])
-    
 
     return (
         <div className="section">
@@ -31,6 +35,11 @@ function NewsLastContent() {
                         {news.length > 0 && news.map((item, index) => <NewsItem key={index} item={item}/>)}
                     </div>
                 )}
+            </div>
+            <div className="show-more">
+                <button onClick={() => handleShowMore()}>
+                    Daha Çox
+                </button>
             </div>
         </div>
     );

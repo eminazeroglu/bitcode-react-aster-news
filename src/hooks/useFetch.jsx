@@ -87,14 +87,35 @@ export const useFetchNewsLastList = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const fetch = async () => {
+    const fetch = async (params = {}) => {
         setLoading(true);
-        const data = await serviceNewsFetchList({limit: 10});
+        const data = await serviceNewsFetchList({limit: 10, ...params});
+        setLoading(false);
+        if (data) setData(d => ([
+            ...d,
+            ...data.data
+        ]));
+    };
+
+    return [data, fetch,  loading];
+};
+
+export const useFetchNewsSearchByText = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const fetch = async (title) => {
+        setLoading(true);
+        const data = await serviceNewsFetchList({limit: 5, title});
         setLoading(false);
         if (data) setData(data.data);
     };
 
-    return [data, fetch, loading];
+    const resetData = () => {
+        setData([]);
+    }
+
+    return [data, fetch, loading, resetData];
 };
 
 export const useFetchAuthorList = () => {
@@ -103,7 +124,7 @@ export const useFetchAuthorList = () => {
 
     const fetch = async () => {
         setLoading(true);
-        const data = await serviceAuthorList({limit: 5});
+        const data = await serviceAuthorList({limit: 10});
         setLoading(false);
         if (data) setData(data.data);
     };

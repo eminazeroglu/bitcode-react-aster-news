@@ -1,18 +1,29 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import {Link, NavLink, useParams} from "react-router-dom";
-import { useFetchNewsBySlug } from "../hooks/useFetch";
+import {useFetchNewsBySlug} from "../hooks/useFetch";
+import Meta from "~/components/common/Meta.jsx";
+import {useLocation} from "react-use";
 
 function NewsView() {
 
     const [data, fetchNewsBySlug, loading] = useFetchNewsBySlug();
     const {slug} = useParams();
+    const {href} = useLocation();
 
     useEffect(() => {
         fetchNewsBySlug(slug);
     }, [slug])
 
     return (
-        <>
+        <div>
+            {data?.title && (
+                <Meta
+                    title={data.title}
+                    image={data?.photo}
+                    url={href}
+                    description={data.description}
+                />
+            )}
             {loading && (
                 <div>
                     Loading...
@@ -38,7 +49,7 @@ function NewsView() {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 
